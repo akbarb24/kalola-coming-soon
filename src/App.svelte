@@ -1,30 +1,85 @@
 <script>
-	export let name;
+	import TypedJs from '@loscrackitos/svelte-typed-js';
+
+	async function handleSubmit(event) {
+			console.log(event.target.email.value);
+	}
+
+	function validateMessageEmail(event) {
+			let textbox = event.target;
+			if (textbox.value === '') {
+					textbox.setCustomValidity('Silahkan masukkan email kamu');
+			} else if (textbox.validity.typeMismatch){
+					textbox.setCustomValidity('Silahkan masukkan email yang valid');
+			} else {
+					textbox.setCustomValidity('');
+			}
+			return true;
+	}
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-navbar fixed-top">
+		<div class="container">
+			<a class="display-4" href="/">Kalola.</a>
+		</div>
+	</nav>
+
+	<!-- Full Page Image Header with Vertically Centered Content -->
+	<header class="masthead">
+		<div class="container h-100">
+			<div class="row h-100 align-items-center">
+				<div class="col-12 text-left">
+					<TypedJs strings="{['Penyedia Jasa?', 'Shoe care?', 'Barbershop?']}" loop={true} backDelay={3000}>
+						<h5 class="lead">Kamu butuh partner mengelola bisnis <span class="typing"></span></h5>
+					</TypedJs>
+					<h1 class="font-weight-bold">Kami Segera Hadir Menjadi Partnermu!</h1>
+					<p class="lead">Silahkan tinggalkan emailmu, agar kamu jadi orang pertama yang tahu ketika kami siap.</p>
+						<form class="form-inline"
+								on:submit|preventDefault="{handleSubmit}"
+						>
+							<div class="form-group mx-sm-3 mb-2">
+								<input on:invalid={validateMessageEmail}
+									on:changed={validateMessageEmail}
+									on:input={validateMessageEmail}
+									type="email" class="form-control" id="email" placeholder="Email saya" required>
+							</div>
+
+							<button type="submit" class="btn btn-primary text-info font-weight-bold mb-2">Beri Tahu Saya</button>
+						</form>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Page Content -->
+	<section class="py-5 footer">
+		<div class="container">
+			<div class="col-lg-6">
+				<h2 class="font-weight-light text-light">Apa itu Kalola?</h2>
+				<p class="text-light">
+					Kalola merupakan sebuah aplikasi yang membantu kamu dalam mengelola serta mengembangkan bisnis Jasa milikmu. 
+					Kalola akan memudahkan kamu dalam mengelola pesanan langganan, manajemen keuangan, dan lain-lainnya.
+				</p>
+			</div>
+		</div>
+	</section>
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	.bg-navbar{
+		background-color: #e6e7ee;
+	}
+	.masthead {
+		height: 100vh;
+		min-height: 500px;
+		background-image: url('/img/wave.svg');
+		background-position: bottom;
+		background-repeat: no-repeat;
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	.footer {
+		background-color: #0099ff;
 	}
 </style>

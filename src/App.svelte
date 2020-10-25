@@ -1,28 +1,15 @@
 <script>
 	import TypedJs from '@loscrackitos/svelte-typed-js';
-	import Message from './Message.svelte';
-	let show = false;
-	
-	let comp;
-	$: if (comp) {
-		// this only fires if `Comp` sets it up
-		comp.$on('destroy', () => console.log('destroy'));
-	}
 
-	async function handleSubmit(event) {
+	let promise = Promise.resolve("");
+
+	function handleSubmit(event) {
 		let email = event.target.email.value
-		doPost(email).then(() => {
-			show = true;
-			setTimeout(() => {
-				location.reload();
-			}, 1000);
-		}).catch((e) => {
-			console.log(e);
-		});
+		promise = doPost(email);
 	}
 
 	async function doPost (email) {
-		const res = await fetch('https://mailchimp-middleware.akbarb.vercel.app/api/register', {
+		const response = await fetch('https://mailchimp-middleware.akbarb.vercel.app/api/register', {
 			method: 'POST',
 			headers: {
       	'Accept': 'application/json',
@@ -32,7 +19,12 @@
 				email: email
 			})
 		})
-		return res;
+
+		if (response.ok) {
+  		return "Email sudah kami terima, nanti kamu akan menjadi orang yang pertama kami beritahu.";
+		} else {
+			throw new Error(" kami belum dapat email dari kamu. Silahkan kirim lagi.");
+		}
 	}
 
 	function validateMessageEmail(event) {
@@ -75,10 +67,22 @@
 									on:input={validateMessageEmail}
 									type="email" class="form-control" id="email" placeholder="Email saya" required>
 							</div>
-							<button type="submit" class="btn btn-primary text-info font-weight-bold mb-2 mx-sm-3">Beri Tahu Saya</button>
-							{#if show}
-								<Message bind:this={comp} />
-							{/if}
+							
+							<button type="submit" class="btn btn-primary text-info font-weight-bold mb-2 mx-sm-3">
+								Beri Tahu Saya
+							</button>
+
+							{#await promise}
+								<p>...waiting</p>
+							{:then message}
+								<span class="text-success">
+									<strong>Terimakasih!</strong>
+								</span>
+							{:catch error}
+								<span class="text-danger">
+									<strong>Maaf,</strong> 
+								</span>
+							{/await}
 						</form>
 				</div>
 			</div>

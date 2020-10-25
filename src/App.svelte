@@ -2,7 +2,24 @@
 	import TypedJs from '@loscrackitos/svelte-typed-js';
 
 	async function handleSubmit(event) {
-			console.log(event.target.email.value);
+		console.log(event.target.email.value);
+		doPost(event.target.email.value)
+		.then(() => alert("Yeay"))
+		.catch((e) => console.error(e))
+	}
+
+	async function doPost (email) {
+		const res = await fetch('https://mailchimp-middleware.akbarb.vercel.app/api/register', {
+			method: 'POST',
+			headers: {
+      	'Accept': 'application/json',
+      	'Content-Type': 'application/json'
+    	},
+			body: JSON.stringify({
+				email: email
+			})
+		})
+		return res;
 	}
 
 	function validateMessageEmail(event) {

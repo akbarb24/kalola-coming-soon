@@ -1,4 +1,5 @@
 <script>
+	import { SyncLoader } from 'svelte-loading-spinners';
 	import TypedJs from '@loscrackitos/svelte-typed-js';
 
 	let promise = Promise.resolve("");
@@ -20,10 +21,11 @@
 			})
 		})
 
+		setTimeout(() => location.reload(), 2000)
 		if (response.ok) {
-  		return "Email sudah kami terima, nanti kamu akan menjadi orang yang pertama kami beritahu.";
+  		return "Terimakasih! Email sudah kami terima, nanti kamu akan menjadi orang yang pertama kami beritahu.";
 		} else {
-			throw new Error(" kami belum dapat email dari kamu. Silahkan kirim lagi.");
+			throw new Error("Maaf, kami belum menerima email dari kamu. Silahkan kirim lagi.");
 		}
 	}
 
@@ -44,7 +46,7 @@
 	<!-- Navigation -->
 	<nav class="navbar navbar-light bg-navbar fixed-top">
 		<div class="container">
-			<a class="display-4" href="/">Kalola.</a>
+			<a class="display-4 text-blue" href="/">Kalola.</a>
 		</div>
 	</nav>
 
@@ -68,19 +70,19 @@
 									type="email" class="form-control" id="email" placeholder="Email saya" required>
 							</div>
 							
-							<button type="submit" class="btn btn-primary text-info font-weight-bold mb-2 mx-sm-3">
+							<button type="submit" class="btn btn-primary text-blue font-weight-bold mb-2 mx-sm-3">
 								Beri Tahu Saya
 							</button>
 
 							{#await promise}
-								<p>...waiting</p>
+								<SyncLoader size="40" color="#0099ff" unit="px"></SyncLoader>
 							{:then message}
 								<span class="text-success">
-									<strong>Terimakasih!</strong>
+									{message}
 								</span>
 							{:catch error}
 								<span class="text-danger">
-									<strong>Maaf,</strong> 
+									{error}
 								</span>
 							{/await}
 						</form>
@@ -117,5 +119,9 @@
 
 	.footer {
 		background-color: #0099ff;
+	}
+
+	.text-blue {
+		color: #0099ff;
 	}
 </style>

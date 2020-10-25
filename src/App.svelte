@@ -1,11 +1,24 @@
 <script>
 	import TypedJs from '@loscrackitos/svelte-typed-js';
+	import Message from './Message.svelte';
+	let show = false;
+	
+	let comp;
+	$: if (comp) {
+		// this only fires if `Comp` sets it up
+		comp.$on('destroy', () => console.log('destroy'));
+	}
 
 	async function handleSubmit(event) {
-		console.log(event.target.email.value);
-		doPost(event.target.email.value)
-		.then(() => alert("Yeay"))
-		.catch((e) => console.error(e))
+		let email = event.target.email.value
+		doPost(email).then(() => {
+			show = true;
+			setTimeout(() => {
+				location.reload();
+			}, 1000);
+		}).catch((e) => {
+			console.log(e);
+		});
 	}
 
 	async function doPost (email) {
@@ -37,7 +50,7 @@
 
 <main>
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-navbar fixed-top">
+	<nav class="navbar navbar-light bg-navbar fixed-top">
 		<div class="container">
 			<a class="display-4" href="/">Kalola.</a>
 		</div>
@@ -62,8 +75,10 @@
 									on:input={validateMessageEmail}
 									type="email" class="form-control" id="email" placeholder="Email saya" required>
 							</div>
-
-							<button type="submit" class="btn btn-primary text-info font-weight-bold mb-2">Beri Tahu Saya</button>
+							<button type="submit" class="btn btn-primary text-info font-weight-bold mb-2 mx-sm-3">Beri Tahu Saya</button>
+							{#if show}
+								<Message bind:this={comp} />
+							{/if}
 						</form>
 				</div>
 			</div>

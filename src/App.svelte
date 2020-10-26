@@ -55,7 +55,7 @@
 		<div class="container h-100">
 			<div class="row h-100 align-items-center">
 				<div class="col-12 text-left">
-					<TypedJs strings="{['Penyedia Jasa?', 'Shoe care?', 'Barbershop?']}" loop={true} backDelay={3000}>
+					<TypedJs strings="{['<strong>Jasa</strong>?', '<strong>Shoe care</strong>?', '<strong>Barbershop</strong>?', '<strong>Laundry</strong>?']}" loop={true} backDelay={3000}>
 						<h5 class="lead">Kamu butuh partner mengelola bisnis <span class="typing"></span></h5>
 					</TypedJs>
 					<h1 class="font-weight-bold">Kami Segera Hadir Menjadi Partnermu!</h1>
@@ -94,11 +94,11 @@
 	<!-- Page Content -->
 	<section class="py-5 footer">
 		<div class="container">
-			<div class="col-lg-6">
+			<div class="col-lg-8">
 				<h2 class="font-weight-light text-light">Apa itu Kalola?</h2>
 				<p class="text-light">
-					Kalola merupakan sebuah aplikasi yang membantu kamu dalam mengelola serta mengembangkan bisnis Jasa milikmu. 
-					Kalola akan memudahkan kamu dalam mengelola pesanan langganan, manajemen keuangan, dan lain-lainnya.
+					<strong>Kalola</strong> merupakan sebuah aplikasi yang membantu kamu dalam mengelola serta mengembangkan bisnis Jasa milikmu. 
+					<strong>Kalola</strong> akan memudahkan kamu dalam mengelola pesanan langganan, manajemen keuangan, manajemen pelanggan, manajemen karyawan dan lain-lainnya.
 				</p>
 			</div>
 		</div>
